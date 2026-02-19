@@ -3,7 +3,25 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>John.Tsai - Interactive Artist & Creative Technologist</title>
+    <title>John.TC Tsai - Interactive Artist & Creative Technologist</title>
+
+    <!-- SEO -->
+    <meta name="description" content="John.TC Tsai — Interactive Artist & Creative Technologist specializing in XR, interactive installations, Unity, Three.js, and WebGL.">
+    <meta name="keywords" content="John Tsai, Interactive Artist, Creative Technologist, XR, Unity, Three.js, WebGL, Spring Boot, Interactive Installation">
+    <meta name="author" content="John.TC Tsai">
+    <link rel="canonical" href="https://sites.google.com/view/jtct">
+
+    <!-- Open Graph -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://sites.google.com/view/jtct">
+    <meta property="og:title" content="John.TC Tsai - Interactive Artist & Creative Technologist">
+    <meta property="og:description" content="Interactive Artist & Creative Technologist specializing in XR, interactive installations, Unity, Three.js, and WebGL.">
+    <meta property="og:locale" content="en_US">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="John.TC Tsai - Interactive Artist & Creative Technologist">
+    <meta name="twitter:description" content="Interactive Artist & Creative Technologist specializing in XR, interactive installations, Unity, Three.js, and WebGL.">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&display=swap');
@@ -50,10 +68,43 @@
         .skill-tag:hover { background: #fff; color: #000; }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .animate-bounce { animation: bounce 2s infinite; }
+
+        #navbar {
+            position: fixed; top: 0; left: 0; right: 0; z-index: 40;
+            transition: background 0.4s, backdrop-filter 0.4s;
+        }
+        #navbar.scrolled {
+            background: rgba(0, 0, 0, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255,255,255,0.06);
+        }
+        .nav-link {
+            position: relative; color: #9ca3af; font-size: 0.85rem;
+            letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s;
+        }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px;
+            background: #fff; transition: width 0.3s;
+        }
+        .nav-link:hover { color: #fff; }
+        .nav-link:hover::after { width: 100%; }
+        .nav-link.active { color: #fff; }
+        .nav-link.active::after { width: 100%; }
     </style>
 </head>
 <body>
-    <div class="hero-bg relative h-screen flex items-center justify-center overflow-hidden">
+    <nav id="navbar">
+        <div class="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-16">
+            <a href="#hero" class="text-sm font-light tracking-widest text-white uppercase">John.TC Tsai</a>
+            <div class="flex items-center gap-8">
+                <a href="#about" class="nav-link">About</a>
+                <a href="#projects" class="nav-link">Projects</a>
+                <a href="#contact" class="nav-link">Contact</a>
+            </div>
+        </div>
+    </nav>
+
+    <div id="hero" class="hero-bg relative h-screen flex items-center justify-center overflow-hidden">
         <div class="relative z-10 text-center px-4">
             <h1 class="text-7xl md:text-9xl font-light mb-4 tracking-wider">JOHN.TC TSAI</h1>
             <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-12">
@@ -67,7 +118,7 @@
         </div>
     </div>
 
-    <section class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+    <section id="about" class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
         <h2 class="text-5xl font-light mb-4 text-center">About</h2>
         <div class="h-1 w-20 bg-white mb-16 mx-auto"></div>
 
@@ -115,6 +166,23 @@
         </div>
 
         <div class="mb-20">
+            <h3 class="text-3xl font-light mb-8">Education</h3>
+            <div class="space-y-4">
+                <div class="pb-4 border-b border-gray-800">
+                    <p class="text-sm text-gray-400 mb-1">2013 – 2016</p>
+                    <p class="font-light">M.S. in Digital Media Design</p>
+                    <p class="text-sm text-gray-400">National Yunlin University of Science & Technology, Yunlin, Taiwan</p>
+                    <p class="text-sm text-gray-500 mt-2 leading-relaxed">Thesis: The Study on Applying Interactive Generative Art for New Media Performance Space</p>
+                </div>
+                <div class="pb-4 border-b border-gray-800">
+                    <p class="text-sm text-gray-400 mb-1">2008 – 2013</p>
+                    <p class="font-light">B.S. in Electrical Engineering</p>
+                    <p class="text-sm text-gray-400">National Yunlin University of Science & Technology, Yunlin, Taiwan</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-20">
             <h3 class="text-3xl font-light mb-8">Skills</h3>
             <div class="space-y-6">
                 <div>
@@ -153,14 +221,17 @@
             <div class="space-y-4">
                 <div class="group"><a href="https://brandnews.deltaww.com/TC/57/SpecialTopic.aspx" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">Mastering VR</p></a></div>
                 <div class="group"><a href="https://www.shennonacorp.com/boostfix" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">Boostfix</p></a></div>
-                <div class="group"><a href="https://lbpost.com/longbeachize/video-interactive-year-dog-art-installation-long-beach-nothing-short-awesome" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">GoFunDog - 2018, Summit Emerging Media Award</p></a></div>
+                <div class="group"><a href="https://www.intertrend.com/intweb2/awards/awards.html" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《GoFunDog》2019 - Summit Emerging Media Awards - Leader and Visionary</p></a></div>
+                <div class="group"><a href="https://www.youtube.com/watch?v=yCupKRReiEo" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《GoFunDog》2019 - 41st Taipei International Creative Festival Awards - Technology</p></a></div>
                 <div class="group"><a href="https://www.404festival.com/speaker/rumu/?lang=en" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">8ight Dogs - 2018, 404 festival</p></a></div>
-                <div class="group"><a href="https://howlife.cna.com.tw/life/20171114s011.aspx" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">Sonic Singer - 2017, The SEIKO Innovation Competition - MVP</p></a></div>
+                <div class="group"><a href="https://howlife.cna.com.tw/life/20171114s011.aspx" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《Sonic Signer》2017 - The SEIKO Innovation Competition - MVP</p></a></div>
+                <div class="group"><a href="http://gca.moc.gov.tw/GCA2017/Exhibition.asp" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《LIPO Mobile VR》2017 - VR Hackfest - Best Mobile VR & Best Original IP</p></a></div>
+                <div class="group"><a href="http://digitalartfestival.tw/daf16/en-award-3-0307.php" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《ColorMesh》2016 - K. T. Creativity Award - Technical Art</p></a></div>
             </div>
         </div>
     </section>
 
-    <section class="py-24 px-6 md:px-12">
+    <section id="projects" class="py-24 px-6 md:px-12">
         <div class="max-w-7xl mx-auto">
             <h2 class="text-5xl font-light mb-4 text-center">Projects</h2>
             <div class="h-1 w-20 bg-white mb-16 mx-auto"></div>
@@ -168,7 +239,7 @@
         </div>
     </section>
 
-    <section class="py-24 px-6 md:px-12">
+    <section id="contact" class="py-24 px-6 md:px-12">
         <div class="max-w-4xl mx-auto text-center">
             <h2 class="text-5xl font-light mb-4">Contact</h2>
             <div class="h-1 w-20 bg-white mb-12 mx-auto"></div>
@@ -540,6 +611,24 @@
         document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
 
         renderProjects();
+
+        // Navbar scroll & active link
+        const navbar = document.getElementById('navbar');
+        const sections = ['about', 'projects', 'contact'];
+        const navLinks = document.querySelectorAll('.nav-link');
+
+        window.addEventListener('scroll', () => {
+            navbar.classList.toggle('scrolled', window.scrollY > 50);
+
+            let current = '';
+            sections.forEach(id => {
+                const el = document.getElementById(id);
+                if (el && window.scrollY >= el.offsetTop - 100) current = id;
+            });
+            navLinks.forEach(link => {
+                link.classList.toggle('active', link.getAttribute('href') === `#${current}`);
+            });
+        });
     </script>
 </body>
 </html>
