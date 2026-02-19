@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>John.Tsai - Interactive Artist & Creative Technologist</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&display=swap');
+        
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Noto Sans TC', sans-serif; background: #000; color: #fff; }
+        html { scroll-behavior: smooth; }
+        
+        .hero-bg {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
+                        radial-gradient(circle at 30% 50%, rgba(88, 28, 135, 0.1) 0%, transparent 50%),
+                        radial-gradient(circle at 70% 50%, rgba(29, 78, 216, 0.1) 0%, transparent 50%);
+            background-size: cover; background-position: center;
+        }
+        
+        .project-card { position: relative; cursor: pointer; overflow: hidden; border-radius: 0.5rem; aspect-ratio: 1; background: #18181b; }
+        .project-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s; }
+        .project-card:hover img { transform: scale(1.1); }
+        
+        .project-overlay {
+            position: absolute; inset: 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.5), transparent);
+            opacity: 0; transition: opacity 0.5s;
+            display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem;
+        }
+        .project-card:hover .project-overlay { opacity: 1; }
+        
+        .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 50; align-items: center; justify-content: center; padding: 1rem; }
+        .lightbox.active { display: flex; }
+        
+        .image-popup {
+            display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px); z-index: 60; align-items: center; justify-content: center;
+            padding: 2rem; animation: fadeIn 0.3s ease-out;
+        }
+        .image-popup.active { display: flex; }
+        
+        .popup-content { max-width: 90vw; max-height: 85vh; animation: scaleIn 0.4s ease-out; transform-origin: center; border-radius: 1rem; overflow: hidden; }
+        .popup-content img { width: 80vw; height: 70vh; object-fit: contain; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); background: #000; display: block; }
+        
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+        
+        .skill-tag:hover { background: #fff; color: #000; }
+        @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+        .animate-bounce { animation: bounce 2s infinite; }
+    </style>
+</head>
+<body>
+    <div class="hero-bg relative h-screen flex items-center justify-center overflow-hidden">
+        <div class="relative z-10 text-center px-4">
+            <h1 class="text-7xl md:text-9xl font-light mb-4 tracking-wider">JOHN.TC TSAI</h1>
+            <p class="text-lg text-gray-400 max-w-2xl mx-auto mb-12">
+                Interactive Artist & Creative Technologist | XR · Unity · Interactive Installations
+            </p>
+        </div>
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="6 9 12 15 18 9"></polyline>
+            </svg>
+        </div>
+    </div>
+
+    <section class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
+        <h2 class="text-5xl font-light mb-4 text-center">About</h2>
+        <div class="h-1 w-20 bg-white mb-16 mx-auto"></div>
+
+        <div class="grid md:grid-cols-2 gap-12 mb-20">
+            <div>
+                <h3 class="text-3xl font-light mb-6">John.TC Tsai</h3>
+                <p class="text-gray-300 leading-relaxed mb-6">Interactive artist and creative technologist specializing in XR experiences, interactive installations, and immersive technology. Combining technical expertise with artistic vision to create engaging digital experiences.</p>
+                <p class="text-gray-300 leading-relaxed">從互動設計到擴增實境，探索科技與藝術的交界。致力於創造能與觀眾產生共鳴的沉浸式體驗。</p>
+            </div>
+            <div>
+                <h3 class="text-2xl font-light mb-6">Experience</h3>
+                <div class="space-y-4">
+                    <div class="pb-4 border-b border-gray-800">
+                        <p class="text-sm text-gray-400 mb-1">2024.3 - Now</p>
+                        <p class="font-light">Backend Engineer</p>
+                        <p class="text-sm text-gray-400">DELTA IT Solution Development</p>
+                    </div>
+                    <div class="pb-4 border-b border-gray-800">
+                        <p class="text-sm text-gray-400 mb-1">2022.9 - 2024.3</p>
+                        <p class="font-light">Sensor Frontend Engineer (Unity / Three.js)</p>
+                        <p class="text-sm text-gray-400">DELTA IT Solution Enablement Center</p>
+                    </div>
+                    <div class="pb-4 border-b border-gray-800">
+                        <p class="text-sm text-gray-400 mb-1">2020.9 - 2022.3</p>
+                        <p class="font-light">Sensor Frontend Engineer (Unity / Three.js)</p>
+                        <p class="text-sm text-gray-400">DELTA Research Center</p>
+                    </div>
+                    <div class="pb-4 border-b border-gray-800">
+                        <p class="text-sm text-gray-400 mb-1">2019.6 - 2020.9</p>
+                        <p class="font-light">Firmware Engineer</p>
+                        <p class="text-sm text-gray-400">COMPAL electronics inc.</p>
+                    </div>
+                    <div class="pb-4 border-b border-gray-800">
+                        <p class="text-sm text-gray-400 mb-1">2019.5 - 2019.6</p>
+                        <p class="font-light">Software Engineer (Unity)</p>
+                        <p class="text-sm text-gray-400">AEMASS Co.</p>
+                    </div>
+                    <div class="pb-4 border-b border-gray-800">
+                        <p class="text-sm text-gray-400 mb-1">2017.5 - 2019.5</p>
+                        <p class="font-light">Creative Technologist</p>
+                        <p class="text-sm text-gray-400">RUMU innovation Co.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-20">
+            <h3 class="text-3xl font-light mb-8">Skills</h3>
+            <div class="space-y-6">
+                <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">Creative & Design</p>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">Interaction Design</span>
+                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">XR</span>
+                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">WebGL</span>
+                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">Vibe Coding</span>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">3D & Real-time Graphics</p>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">Unity</span>
+                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">Three.js</span>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">Web & Backend</p>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">Spring Boot</span>
+                    </div>
+                </div>
+                <div>
+                    <p class="text-xs text-gray-500 uppercase tracking-widest mb-3">Hardware</p>
+                    <div class="flex flex-wrap gap-3">
+                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">Arduino</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="mb-20">
+            <h3 class="text-3xl font-light mb-8">Highlights & Awards</h3>
+            <div class="space-y-4">
+                <div class="group"><a href="https://brandnews.deltaww.com/TC/57/SpecialTopic.aspx" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">Mastering VR</p></a></div>
+                <div class="group"><a href="https://www.shennonacorp.com/boostfix" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">Boostfix</p></a></div>
+                <div class="group"><a href="https://lbpost.com/longbeachize/video-interactive-year-dog-art-installation-long-beach-nothing-short-awesome" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">GoFunDog - 2018, Summit Emerging Media Award</p></a></div>
+                <div class="group"><a href="https://www.404festival.com/speaker/rumu/?lang=en" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">8ight Dogs - 2018, 404 festival</p></a></div>
+                <div class="group"><a href="https://howlife.cna.com.tw/life/20171114s011.aspx" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">Sonic Singer - 2017, The SEIKO Innovation Competition - MVP</p></a></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 md:px-12">
+        <div class="max-w-7xl mx-auto">
+            <h2 class="text-5xl font-light mb-4 text-center">Projects</h2>
+            <div class="h-1 w-20 bg-white mb-16 mx-auto"></div>
+            <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+        </div>
+    </section>
+
+    <section class="py-24 px-6 md:px-12">
+        <div class="max-w-4xl mx-auto text-center">
+            <h2 class="text-5xl font-light mb-4">Contact</h2>
+            <div class="h-1 w-20 bg-white mb-12 mx-auto"></div>
+            <div class="flex flex-col items-center gap-6">
+                <a href="mailto:shinn716@livemail.tw" class="flex items-center gap-3 text-gray-300 hover:text-white transition-colors text-lg">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
+                    <span>shinn716@livemail.tw</span>
+                </a>
+                <div class="flex gap-6 mt-4">
+                    <a href="https://github.com/shinn716" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">GitHub</a>
+                    <a href="https://hackmd.io/@shinn716" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">HackMD</a>
+                    <a href="https://www.linkedin.com/in/johntctsai/" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">LinkedIn</a>
+                </div>
+                <p class="text-gray-500 mt-4">TW / TPE</p>
+            </div>
+        </div>
+    </section>
+
+    <footer class="py-8 px-6 border-t border-gray-800 text-center text-gray-500">
+        <p>© 2024 John.TC Tsai. All rights reserved.</p>
+    </footer>
+
+    <div id="lightbox" class="lightbox">
+        <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white/80 hover:text-white z-10">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <button onclick="prevProject()" class="absolute left-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white z-10">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button onclick="nextProject()" class="absolute right-6 top-1/2 -translate-y-1/2 text-white/80 hover:text-white z-10">
+            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+        <div class="max-w-6xl w-full" onclick="event.stopPropagation()">
+            <div id="lightbox-content" class="grid md:grid-cols-2 gap-8 items-start max-h-[90vh] overflow-y-auto p-4"></div>
+        </div>
+    </div>
+
+    <div id="image-popup" class="image-popup" onclick="closeImagePopup()">
+        <button onclick="closeImagePopup()" class="absolute top-8 right-8 text-white/80 hover:text-white z-10 transition-colors">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <button id="prev-image-btn" onclick="prevImage(event)" class="absolute left-8 top-1/2 -translate-y-1/2 text-white/80 hover:text-white z-10 transition-colors bg-black/50 rounded-full p-3">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button id="next-image-btn" onclick="nextImage(event)" class="absolute right-8 top-1/2 -translate-y-1/2 text-white/80 hover:text-white z-10 transition-colors bg-black/50 rounded-full p-3">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+        <div class="popup-content" onclick="event.stopPropagation()">
+            <img id="popup-image" src="" alt="">
+            <div class="text-center mt-4 text-white/60 text-sm"><span id="image-counter"></span></div>
+        </div>
+    </div>
+
+    <script>
+        const artworks = [
+            {
+                id: 2, title: "Virtual Booth", year: "2021 - 2022", medium: "Unity3D / WebGL / Virtual Booth", category: "webgl",
+                color: "from-sky-600/20 to-indigo-600/20",
+                image: "https://duk.tw/tkfYwF.jpg",
+                description: "WebGL virtual exhibition booth developed for Delta Electronics, showcased at ISE 2022 by Digital Projection.",
+                direction: "Delta Electronics",
+                contribution: "WebGL dev.",
+                event: "ISE 2022 - Digital Projection",
+                link: "https://www.digitalprojection.com/de/news-de/visit-digital-projection-at-ise-2022/",
+                tags: ["Unity3D", "WebGL", "VirtualBooth"],
+                gallery: [
+                    "https://duk.tw/tkfYwF.jpg",
+                    "https://duk.tw/czNHUZ.jpg",
+                    "https://duk.tw/ZE8s8n.jpg",
+                    "https://duk.tw/2cG8ra.jpg",
+                    "https://duk.tw/ktIDI9.jpg",
+                    "https://duk.tw/SejGZ0.jpg",
+                    "https://duk.tw/sygQt6.jpg",
+                    "https://duk.tw/nNxlnC.jpg"
+                ]
+            },
+            {
+                id: 1, title: "LIGHTS", year: "2020", medium: "Unity3D / Audio-Visual", category: "interactive",
+                color: "from-purple-600/20 to-blue-600/20", videoEmbed: "https://www.youtube.com/embed/Gc0WERO8a-o?si=URB0Hf0k7-0dM4eg",
+                description: "Audio-visual interactive installation", video: "https://youtu.be/Gc0WERO8a-o",
+                github: "https://github.com/shinn716/Lights", tags: ["Unity3D", "Audio-Visual"]
+            },
+            {
+                id: 3, title: "VOLVO Safety Game", year: "2019", medium: "Unity3D / WebGL / Web", category: "game",
+                color: "from-red-600/20 to-orange-600/20",
+                image: "https://duk.tw/63g1wv.gif",
+                description: "Interactive safety game for 23th TAIPEI INT'L AUTO SHOW",
+                event: "Dec. 2019 - 23th TAIPEI INT'L AUTO SHOW, Taipei, Taiwan",
+                team: "Design/Direction: Kidd Tsai, Game developer: John Tsai, Front-end: Min-Nan Liao, Back-end: Chi-Ho Cheng",
+                tags: ["Unity3D", "WebGL", "Web"]
+            },
+            {
+                id: 4, title: "JET-PONG", year: "2019", medium: "Unity3D / Arduino / Android / Game", category: "game",
+                color: "from-cyan-600/20 to-teal-600/20", videoEmbed: "https://player.vimeo.com/video/314743263",
+                description: "Interactive game combining physical hardware and digital gameplay",
+                video: "https://vimeo.com/314743263", contribution: "Interactive system, hardware design, game design",
+                github: "https://github.com/shinn716/AndroidBluetoothToArduino-Unity",
+                tags: ["Unity3D", "Arduino", "Android"],
+                gallery: ["https://duk.tw/ww5VNO.png", "https://duk.tw/36ydCy.png"]
+            },
+            {
+                id: 5, title: "Dream of Flowers, Pond of Typos", year: "2018", medium: "Immersive Design / Unity3D",
+                category: "installation", color: "from-pink-600/20 to-rose-600/20", videoEmbed: "https://player.vimeo.com/video/303733186",
+                description: "Interactive wall and floor installation for Chinese Character Festival",
+                video: "https://vimeo.com/303733186", contribution: "Interactive system, 3DCG",
+                event: "Nov. 2018 - The Delight of Chinese Character Festival, Kaohsiung, Taiwan",
+                tags: ["Unity3D", "Interactive"],
+                gallery: [
+                    "https://duk.tw/UWzi6r.jpg","https://duk.tw/jUjNvC.png","https://duk.tw/MkRvqu.jpg",
+                    "https://duk.tw/knSxDi.png","https://duk.tw/SE9xXG.png","https://duk.tw/jX1ZpK.jpg","https://duk.tw/TeyIZP.png"
+                ]
+            },
+            {
+                id: 6, title: "GoFunDog", year: "2018", medium: "Unity3D / Interactive wall / YOLO",
+                category: "installation", color: "from-amber-600/20 to-yellow-600/20", videoEmbed: "https://player.vimeo.com/video/308494416",
+                description: "Real-time interactive installation with computer vision",
+                video: "https://vimeo.com/308494416", contribution: "3DCG, Realtime animation",
+                event: "Feb. 2018 - Psychic Temple LBC, CA, USA", tags: ["Unity3D", "YOLO"],
+                gallery: ["https://duk.tw/LNdDVy.png","https://duk.tw/HHlt8I.png","https://duk.tw/dCMKGL.png","https://duk.tw/rAgXjC.png"]
+            },
+            {
+                id: 7, title: "Echo of Solar Terms", year: "2018", medium: "Unity3D / Interactive wall / 3DCG",
+                category: "installation", color: "from-green-600/20 to-emerald-600/20",
+                image: "https://duk.tw/Bfgq3I.gif",
+                description: "Interactive exhibition exploring Chinese solar terms",
+                contribution: "Interactive system, 3DCG",
+                event: "Sep. 2018 - Echo's Chinese Story Interactive Exhibition, Zhengzhou, China",
+                link: "http://www.cutv.com/v2/2018-8-25/G17hihhhmimkmioiinhvw2.shtml",
+                tags: ["Unity3D", "Interactive wall", "3DCG"],
+                gallery: ["https://duk.tw/Bfgq3I.gif","https://duk.tw/T44gSL.gif","https://duk.tw/ajDcjX.gif","https://duk.tw/n8AcGC.gif"]
+            },
+            {
+                id: 8, title: "Daydream Solar Terms", year: "2018", medium: "Immersive Design / Unity3D / Interactive wall",
+                category: "installation", color: "from-lime-600/20 to-green-600/20",
+                videoEmbed: "https://www.youtube.com/embed/ccdvxogPYWQ?si=pMv1W7yJZlMIMqsh",
+                description: "節氣幻境 - 24 solar terms interactive installation",
+                video: "https://www.youtube.com/watch?v=ccdvxogPYWQ",
+                contribution: "Interactive system, 3DCG",
+                event: "Mar. 2018 - 24 solar terms, Taoyuan Agriculture Expo, Taoyuan, Taiwan",
+                link: "https://www.facebook.com/rumuinno/posts/233773380526498/",
+                tags: ["Immersive Design", "Unity3D", "Interactive wall"]
+            },
+            {
+                id: 9, title: "Sensation of Train", year: "2018", medium: "Immersive Design / Unity3D / 3DCG",
+                category: "installation", color: "from-slate-600/20 to-gray-600/20",
+                videoEmbed: "https://www.youtube.com/embed/yU2iTSNR8TM",
+                description: "2018 台灣燈節【鐵道森情】體感互動裝置 - Immersive installation for Taiwan Lantern Festival",
+                video: "https://www.youtube.com/watch?v=yU2iTSNR8TM",
+                contribution: "Interactive system, 3DCG",
+                event: "Feb. 2018 - Sensation of Train, Taiwan Lantern Festival, Chiayi, Taiwan",
+                link: "http://www.taiwanhot.net/?p=544074",
+                tags: ["Immersive Design", "Unity3D", "3DCG"]
+            },
+            {
+                id: 10, title: "8ight Dogs", year: "2018", medium: "Unity3D / Interactive wall / 3DCG",
+                category: "installation", color: "from-indigo-600/20 to-purple-600/20", videoEmbed: "https://player.vimeo.com/video/297132101",
+                description: "Interactive installation showcased at 404festival in Japan",
+                video: "https://vimeo.com/297132101", contribution: "Interactive system, 3DCG, Realtime animation",
+                event: "Oct. 2018 - 404festival, Fukuoka, Japan", tags: ["Unity3D", "3DCG"],
+                gallery: ["https://duk.tw/hZkOg2.png","https://duk.tw/57tv1J.png","https://duk.tw/Im5JW9.png"]
+            },
+            {
+                id: 11, title: "Sonic Signer", year: "2017", medium: "Android / Arduino",
+                category: "interactive", color: "from-orange-600/20 to-red-600/20", videoEmbed: "https://player.vimeo.com/video/249602995",
+                description: "Chinese calligraphy robot - SEIKO Innovation Competition MVP",
+                video: "https://vimeo.com/249602995", contribution: "Chinese strokes algorithm, hardware design",
+                event: "Nov. 2017 - The SEIKO Innovation Competition, Taipei, Taiwan",
+                github: "https://github.com/shinn716/DrawBot", tags: ["Android", "Arduino"],
+                gallery: ["https://duk.tw/4spG6P.png","https://duk.tw/PE9b9X.png"]
+            },
+            {
+                id: 12, title: "Samsung S-Paint", year: "2017", medium: "Unity3D / Interactive wall",
+                category: "installation", color: "from-blue-600/20 to-cyan-600/20", videoEmbed: "https://player.vimeo.com/video/250208229",
+                description: "Interactive painting installation for Samsung events",
+                video: "https://vimeo.com/250208229", contribution: "Interactive system, 3DCG",
+                tags: ["Unity3D", "3DCG"],
+                gallery: ["https://duk.tw/vmOvYK.png"]
+            },
+            {
+                id: 13, title: "Ultra Graffiti", year: "2017", medium: "Unity3D / VIVE Tracker",
+                category: "installation", color: "from-fuchsia-600/20 to-pink-600/20", videoEmbed: "https://player.vimeo.com/video/251095724",
+                description: "VR graffiti installation with VIVE Tracker",
+                video: "https://vimeo.com/251095724", contribution: "Interactive system, 3DCG, Realtime animation",
+                tags: ["Unity3D", "VR"],
+                gallery: ["https://duk.tw/eE8Wvz.png","https://duk.tw/V1rGgB.png","https://duk.tw/QKNdvP.png","https://duk.tw/dJt3d0.png","https://duk.tw/3hpE0q.png"]
+            },
+            {
+                id: 14, title: "Li Bai VR", year: "2017", medium: "Unity3D / Mobile VR",
+                category: "vr", color: "from-violet-600/20 to-purple-600/20", videoEmbed: "https://player.vimeo.com/video/252475915",
+                description: "Mobile VR experience developed for VR Hack Fest",
+                video: "https://vimeo.com/252475915", contribution: "MobileVR development",
+                event: "2017 VR Hack Fest",
+                link: "https://www.rumuinno.com/project02",
+                tags: ["Unity3D", "Mobile VR"],
+                gallery: ["https://duk.tw/tBFPla.jpg","https://duk.tw/HDW9X4.jpg"]
+            }
+        ];
+
+        let currentIndex = 0;
+        let currentGallery = [];
+        let currentGalleryIndex = 0;
+
+        function getThumbnail(work) {
+            if (!work.videoEmbed) return null;
+            if (work.videoEmbed.includes('youtube.com')) {
+                const videoId = work.videoEmbed.split('/embed/')[1]?.split('?')[0];
+                return `https://img.youtube.com/vi/${videoId}/maxresdefault.jpg`;
+            } else if (work.videoEmbed.includes('vimeo.com')) {
+                const videoId = work.videoEmbed.split('/video/')[1];
+                return `https://vumbnail.com/${videoId}.jpg`;
+            }
+            return null;
+        }
+
+        function renderProjects() {
+            const grid = document.getElementById('projects-grid');
+            grid.innerHTML = artworks.map((work, index) => {
+                const thumbnail = work.image || getThumbnail(work);
+                return `
+                    <div class="project-card" onclick="openLightbox(${index})">
+                        ${thumbnail ? `
+                            <img src="${thumbnail}" alt="${work.title}" onerror="this.style.display='none'">
+                            <div class="absolute inset-0 bg-gradient-to-br ${work.color}"></div>
+                        ` : `<div class="absolute inset-0 bg-gradient-to-br ${work.color}"></div>`}
+                        <div class="relative h-full flex flex-col justify-between p-6">
+                            <div>
+                                <div class="text-xs text-gray-400 mb-2">${work.year}</div>
+                                <h3 class="text-2xl font-light mb-3 leading-tight">${work.title}</h3>
+                            </div>
+                            <div>
+                                <div class="flex flex-wrap gap-1 mb-3">
+                                    ${work.tags.slice(0, 3).map(tag => `<span class="text-xs px-2 py-1 bg-white/10 rounded text-gray-300">${tag}</span>`).join('')}
+                                </div>
+                                <div class="text-sm text-gray-400">${work.category}</div>
+                            </div>
+                        </div>
+                        <div class="project-overlay">
+                            <h3 class="text-2xl font-light mb-2">${work.title}</h3>
+                            <p class="text-gray-300 text-sm mb-1">${work.year}</p>
+                            <p class="text-gray-400 text-sm">${work.medium}</p>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openLightbox(index) {
+            currentIndex = index;
+            const work = artworks[index];
+            const lightbox = document.getElementById('lightbox');
+            const content = document.getElementById('lightbox-content');
+
+            const videoHtml = work.videoEmbed ? `
+                <div class="sticky top-0">
+                    <div class="relative w-full bg-black rounded-lg" style="padding-bottom: 56.25%">
+                        <iframe src="${work.videoEmbed}" class="absolute top-0 left-0 w-full h-full rounded-lg" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+                    </div>
+                </div>
+            ` : work.image ? `
+                <div class="sticky top-0">
+                    <div class="relative w-full rounded-lg overflow-hidden bg-black" style="padding-bottom: 56.25%">
+                        <img src="${work.image}" alt="${work.title}" class="absolute top-0 left-0 w-full h-full object-cover">
+                    </div>
+                </div>
+            ` : `
+                <div class="sticky top-0">
+                    <div class="relative w-full rounded-lg bg-gradient-to-br ${work.color} flex items-center justify-center" style="padding-bottom: 56.25%">
+                        <div class="absolute inset-0 flex items-center justify-center">
+                            <div class="text-center p-8">
+                                <h3 class="text-4xl font-light mb-2">${work.title}</h3>
+                                <p class="text-xl text-gray-300">${work.year}</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            const galleryHtml = work.gallery && work.gallery.length > 0 ? `
+                <div class="pt-4 border-t border-gray-700">
+                    <p class="text-sm text-gray-400 mb-4">Gallery (${work.gallery.length} photos):</p>
+                    <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
+                        ${work.gallery.map((img, i) => `
+                            <img src="${img}" alt="${work.title} ${i+1}" 
+                                class="w-full aspect-video object-cover rounded-lg hover:opacity-80 transition-opacity cursor-pointer" 
+                                onclick="openImagePopup('${img}', ${i}, ${JSON.stringify(work.gallery).replace(/"/g, '&quot;')})">
+                        `).join('')}
+                    </div>
+                </div>
+            ` : '';
+
+            content.innerHTML = `
+                ${videoHtml}
+                <div class="text-white space-y-4">
+                    <h3 class="text-4xl font-light">${work.title}</h3>
+                    <p class="text-gray-400">${work.year}</p>
+                    <p class="text-gray-300">${work.medium}</p>
+                    <p class="text-gray-300 leading-relaxed pt-4">${work.description}</p>
+                    ${work.direction ? `<div class="pt-4 border-t border-gray-700"><p class="text-sm text-gray-400 mb-2">Design/Direction:</p><p class="text-gray-300">${work.direction}</p></div>` : ''}
+                    ${work.contribution ? `<div class="pt-4 border-t border-gray-700"><p class="text-sm text-gray-400 mb-2">Contribution:</p><p class="text-gray-300">${work.contribution}</p></div>` : ''}
+                    ${work.team ? `<div class="pt-4 border-t border-gray-700"><p class="text-sm text-gray-400 mb-2">Team:</p><p class="text-gray-300 text-sm">${work.team}</p></div>` : ''}
+                    ${work.event ? `<div class="pt-4 border-t border-gray-700"><p class="text-sm text-gray-400 mb-2">Event:</p><p class="text-gray-300 text-sm">${work.event}</p></div>` : ''}
+                    ${galleryHtml}
+                    <div class="flex flex-wrap gap-2 pt-4">
+                        ${work.tags.map(tag => `<span class="px-3 py-1 bg-zinc-800 rounded-full text-xs text-gray-300">#${tag}</span>`).join('')}
+                    </div>
+                    <div class="flex gap-4 pt-6">
+                        ${work.video ? `<a href="${work.video}" target="_blank" class="px-4 py-2 bg-white text-black rounded hover:bg-gray-200 transition-colors text-sm">Watch Video</a>` : ''}
+                        ${work.github ? `<a href="${work.github}" target="_blank" class="px-4 py-2 bg-zinc-800 text-white rounded hover:bg-zinc-700 transition-colors text-sm">GitHub</a>` : ''}
+                        ${work.link ? `<a href="${work.link}" target="_blank" class="px-4 py-2 bg-zinc-800 text-white rounded hover:bg-zinc-700 transition-colors text-sm">Learn More</a>` : ''}
+                    </div>
+                </div>
+            `;
+
+            lightbox.classList.add('active');
+        }
+
+        function closeLightbox() { document.getElementById('lightbox').classList.remove('active'); }
+
+        function openImagePopup(imageSrc, index = 0, gallery = []) {
+            currentGallery = typeof gallery === 'string' ? JSON.parse(gallery) : gallery;
+            currentGalleryIndex = index;
+            const popup = document.getElementById('image-popup');
+            const img = document.getElementById('popup-image');
+            const counter = document.getElementById('image-counter');
+            const prevBtn = document.getElementById('prev-image-btn');
+            const nextBtn = document.getElementById('next-image-btn');
+            img.src = imageSrc;
+            if (currentGallery.length > 1) {
+                counter.textContent = `${currentGalleryIndex + 1} / ${currentGallery.length}`;
+                prevBtn.style.display = 'block'; nextBtn.style.display = 'block';
+            } else {
+                counter.textContent = ''; prevBtn.style.display = 'none'; nextBtn.style.display = 'none';
+            }
+            popup.classList.add('active');
+        }
+
+        function closeImagePopup() {
+            document.getElementById('image-popup').classList.remove('active');
+            currentGallery = []; currentGalleryIndex = 0;
+        }
+
+        function prevImage(event) {
+            event.stopPropagation();
+            if (currentGallery.length > 0) { currentGalleryIndex = (currentGalleryIndex - 1 + currentGallery.length) % currentGallery.length; updatePopupImage(); }
+        }
+
+        function nextImage(event) {
+            event.stopPropagation();
+            if (currentGallery.length > 0) { currentGalleryIndex = (currentGalleryIndex + 1) % currentGallery.length; updatePopupImage(); }
+        }
+
+        function updatePopupImage() {
+            document.getElementById('popup-image').src = currentGallery[currentGalleryIndex];
+            document.getElementById('image-counter').textContent = `${currentGalleryIndex + 1} / ${currentGallery.length}`;
+        }
+
+        function prevProject() { currentIndex = currentIndex > 0 ? currentIndex - 1 : artworks.length - 1; openLightbox(currentIndex); }
+        function nextProject() { currentIndex = currentIndex < artworks.length - 1 ? currentIndex + 1 : 0; openLightbox(currentIndex); }
+
+        document.addEventListener('keydown', function(e) {
+            const popup = document.getElementById('image-popup');
+            if (popup.classList.contains('active')) {
+                if (e.key === 'ArrowLeft') prevImage(e);
+                if (e.key === 'ArrowRight') nextImage(e);
+                if (e.key === 'Escape') closeImagePopup();
+            }
+        });
+
+        document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
+
+        renderProjects();
+    </script>
+</body>
+</html>
