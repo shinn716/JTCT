@@ -97,9 +97,9 @@
         <div class="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-16">
             <a href="#hero" class="text-sm font-light tracking-widest text-white uppercase">John.TC Tsai</a>
             <div class="flex items-center gap-8">
-                <a href="#about" class="nav-link">About</a>
-                <a href="#projects" class="nav-link">Projects</a>
-                <a href="#contact" class="nav-link">Contact</a>
+                <a href="#" onclick="navScrollTo(event,'about')" class="nav-link">About</a>
+                <a href="#" onclick="navScrollTo(event,'projects')" class="nav-link">Projects</a>
+                <a href="#" onclick="navScrollTo(event,'contact')" class="nav-link">Contact</a>
             </div>
         </div>
     </nav>
@@ -611,6 +611,16 @@
         document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
 
         renderProjects();
+
+        // Smooth scroll without anchor URL change
+        function navScrollTo(e, id) {
+            e.preventDefault();
+            const el = document.getElementById(id);
+            if (!el) return;
+            const offset = 64;
+            const top = el.getBoundingClientRect().top + window.scrollY - offset;
+            window.scrollTo({ top: top, behavior: 'smooth' });
+        }
 
         // Navbar scroll & active link
         const navbar = document.getElementById('navbar');
