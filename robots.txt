@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://shinn716.github.io/JTCT/sitemap.xml
