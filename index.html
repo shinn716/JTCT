@@ -446,6 +446,7 @@
                 description: "Glove prototype that captures hand pose via Arduino sensors and renders it in real time in Unity3D.",
                 video: "https://youtube.com/shorts/-Adf8W9RXa4",
                 link: "https://github.com/LucidVR/lucidgloves",
+                gallery: [{ video: "https://youtu.be/bjVDEjEfxVA", thumb: "https://img.youtube.com/vi/bjVDEjEfxVA/maxresdefault.jpg" }],
                 tags: ["VR", "Arduino", "POC"]
             },
             {
@@ -661,14 +662,30 @@
                 <div class="pt-4 border-t border-gray-700">
                     <p class="text-sm text-gray-400 mb-4">Gallery (${work.gallery.length} photos):</p>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
-                        ${work.gallery.map((img, i) => `
+                        ${work.gallery.map((img, i) => {
+                            if (typeof img === 'object' && img.video) {
+                                return `
+                                    <a href="${img.video}" target="_blank" rel="noopener noreferrer" class="block w-full rounded-lg relative"
+                                        aria-label="Watch ${work.title} video ${i+1} on YouTube (opens in new tab)">
+                                        <img src="${img.thumb}" alt="${work.title} — video ${i+1} thumbnail" loading="lazy"
+                                            class="w-full aspect-video object-cover rounded-lg hover:opacity-80 transition-opacity">
+                                        <div class="absolute inset-0 flex items-center justify-center">
+                                            <div class="w-12 h-12 rounded-full bg-black/60 flex items-center justify-center">
+                                                <div class="w-0 h-0 border-t-8 border-t-transparent border-b-8 border-b-transparent border-l-[14px] border-l-white ml-1"></div>
+                                            </div>
+                                        </div>
+                                    </a>
+                                `;
+                            }
+                            return `
                             <button type="button" class="block w-full p-0 border-0 bg-transparent cursor-pointer rounded-lg"
                                 aria-label="View ${work.title} photo ${i+1} of ${work.gallery.length} full size"
                                 onclick="openImagePopup('${img}', ${i}, ${JSON.stringify(work.gallery).replace(/"/g, '&quot;')})">
                                 <img src="${img}" alt="${work.title} — gallery image ${i+1} of ${work.gallery.length}" loading="lazy"
                                     class="w-full aspect-video object-cover rounded-lg hover:opacity-80 transition-opacity">
                             </button>
-                        `).join('')}
+                        `;
+                        }).join('')}
                     </div>
                 </div>
             ` : '';
