@@ -8,7 +8,6 @@
     <!-- Resource hints -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preconnect" href="https://cdn.tailwindcss.com">
     <link rel="dns-prefetch" href="https://duk.tw">
 
     <!-- SEO -->
@@ -78,7 +77,7 @@
     </script>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&display=swap">
-    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="styles.css">
     <style>
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -407,6 +406,17 @@
         </div>
     </div>
 
+    <div id="video-popup" class="image-popup" onclick="closeVideoPopup()" role="dialog" aria-modal="true" aria-label="Video player">
+        <button type="button" onclick="closeVideoPopup()" aria-label="Close video" class="absolute top-8 right-8 text-white/80 hover:text-white z-10 transition-colors">
+            <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <div class="popup-content" style="width: 80vw; max-width: 1000px;" onclick="event.stopPropagation()">
+            <div class="relative w-full bg-black" style="padding-bottom: 56.25%">
+                <iframe id="video-popup-iframe" src="" class="absolute top-0 left-0 w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
     <script>
         const artworks = [
             {
@@ -575,13 +585,16 @@
         let currentGallery = [];
         let currentGalleryIndex = 0;
 
-        function playInlineVideo(btn, embedUrl) {
-            btn.outerHTML = `
-                <div class="relative w-full aspect-video rounded-lg overflow-hidden bg-black">
-                    <iframe src="${embedUrl}?autoplay=1" class="absolute top-0 left-0 w-full h-full rounded-lg"
-                        allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
-                </div>
-            `;
+        function openVideoPopup(embedUrl) {
+            document.getElementById('video-popup-iframe').src = embedUrl + '?autoplay=1';
+            document.getElementById('video-popup').classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeVideoPopup() {
+            document.getElementById('video-popup').classList.remove('active');
+            document.getElementById('video-popup-iframe').src = '';
+            document.body.style.overflow = '';
         }
 
         function getThumbnail(work) {
@@ -676,7 +689,7 @@
                                 return `
                                     <button type="button" class="block w-full p-0 border-0 bg-transparent cursor-pointer rounded-lg relative aspect-video"
                                         aria-label="Play ${work.title} video ${i+1}"
-                                        onclick="playInlineVideo(this, '${img.embed}')">
+                                        onclick="openVideoPopup('${img.embed}')">
                                         <img src="${img.thumb}" alt="${work.title} — video ${i+1} thumbnail" loading="lazy"
                                             class="w-full h-full object-cover rounded-lg hover:opacity-80 transition-opacity">
                                         <div class="absolute inset-0 flex items-center justify-center">
@@ -805,6 +818,12 @@
                 if (e.key === 'ArrowRight') nextImage(e);
                 if (e.key === 'Escape') { closeImagePopup(); return; }
                 trapFocus(e, popup);
+                return;
+            }
+            const vp = document.getElementById('video-popup');
+            if (vp.classList.contains('active')) {
+                if (e.key === 'Escape') { closeVideoPopup(); return; }
+                trapFocus(e, vp);
                 return;
             }
             const lb = document.getElementById('lightbox');

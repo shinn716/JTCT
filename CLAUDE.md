@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Overview
 
-Single-file static portfolio website for John.TC Tsai (Interactive Artist & Creative Technologist). The entire site lives in `index.html` — no build step, no package manager, no framework.
+Single-file static portfolio website for John.TC Tsai (Interactive Artist & Creative Technologist). Nearly everything lives in `index.html` — no framework, no JS bundler. Styling is a precompiled static `styles.css` (Tailwind), not the Tailwind CDN script, for load performance.
 
 ## Development
 
@@ -14,6 +14,16 @@ Open `index.html` directly in a browser, or serve it locally:
 python3 -m http.server 8080
 # then visit http://localhost:8080
 ```
+
+### Regenerating styles.css
+
+If you add a Tailwind utility class that isn't already used elsewhere in `index.html`, it won't appear in `styles.css` until regenerated:
+
+```sh
+npx tailwindcss -i ./input.css -o ./styles.css --minify --content ./index.html
+```
+
+(`input.css` just needs the three `@tailwind base/components/utilities` directives; regenerate ad hoc if missing.)
 
 ## Deployment
 
