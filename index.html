@@ -76,94 +76,85 @@
     }
     </script>
 
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500&display=swap">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;700&display=swap">
     <link rel="stylesheet" href="styles.css">
     <style>
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Noto Sans TC', sans-serif; background: #000; color: #fff; }
+        body { font-family: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; background: #201d1d; color: #fdfcfc; }
         html { scroll-behavior: smooth; }
-        
-        .hero-bg {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        radial-gradient(circle at 30% 50%, rgba(88, 28, 135, 0.1) 0%, transparent 50%),
-                        radial-gradient(circle at 70% 50%, rgba(29, 78, 216, 0.1) 0%, transparent 50%);
-            background-size: cover; background-position: center;
-        }
-        
-        .project-card { position: relative; cursor: pointer; overflow: hidden; border-radius: 0.5rem; aspect-ratio: 1; background: #18181b; }
+
+        .hero-bg { background: #201d1d; }
+
+        .project-card { position: relative; cursor: pointer; overflow: hidden; border-radius: 0; aspect-ratio: 1; background: #302c2c; border: 1px solid rgba(253,252,252,0.12); }
         .project-card img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.7s; }
         .project-card:hover img { transform: scale(1.1); }
-        
+
         .project-overlay {
             position: absolute; inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.9), rgba(0,0,0,0.5), transparent);
+            background: rgba(0,0,0,0.88);
             opacity: 0; transition: opacity 0.5s;
             display: flex; flex-direction: column; justify-content: flex-end; padding: 1.5rem;
         }
         .project-card:hover .project-overlay { opacity: 1; }
-        
-        .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.95); z-index: 50; align-items: center; justify-content: center; padding: 1rem; }
+
+        .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85); z-index: 50; align-items: center; justify-content: center; padding: 1rem; }
         .lightbox.active { display: flex; }
-        
+
         .image-popup {
             display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.85);
-            backdrop-filter: blur(8px); z-index: 60; align-items: center; justify-content: center;
+            z-index: 60; align-items: center; justify-content: center;
             padding: 2rem; animation: fadeIn 0.3s ease-out;
         }
         .image-popup.active { display: flex; }
-        
-        .popup-content { max-width: 90vw; max-height: 85vh; animation: scaleIn 0.4s ease-out; transform-origin: center; border-radius: 1rem; overflow: hidden; }
-        .popup-content img { width: 80vw; height: 70vh; object-fit: contain; box-shadow: 0 25px 50px -12px rgba(0,0,0,0.5); background: #000; display: block; }
-        
+
+        .popup-content { max-width: 90vw; max-height: 85vh; animation: scaleIn 0.4s ease-out; transform-origin: center; border-radius: 0; overflow: hidden; }
+        .popup-content img { width: 80vw; height: 70vh; object-fit: contain; background: #201d1d; display: block; }
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
-        
-        .skill-tag:hover { background: #fff; color: #000; }
+
+        .skill-tag:hover { background: #fdfcfc; color: #201d1d; }
         @keyframes bounce { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
         .animate-bounce { animation: bounce 2s infinite; }
 
         /* Hero title: fluid size, scales to fit width so it never wraps/clips */
-        .hero-title { font-size: clamp(1.5rem, 7.6vw, 8.5rem); line-height: 1.05; white-space: nowrap; letter-spacing: 0.04em; }
+        .hero-title { font-size: clamp(1.25rem, 4.2vw, 2.375rem); line-height: 1.5; letter-spacing: 0; white-space: nowrap; font-weight: 700; }
 
         /* Experience / Education timeline */
         .timeline { position: relative; padding-left: 1.75rem; }
         .timeline::before {
             content: ''; position: absolute; left: 3px; top: 8px; bottom: 8px;
-            width: 1px; background: rgba(255,255,255,0.12);
+            width: 1px; background: rgba(253,252,252,0.12);
         }
         .timeline-item { position: relative; }
         .timeline-item::before {
-            content: ''; position: absolute; left: calc(-1.75rem + 0px); top: 7px;
-            width: 7px; height: 7px; border-radius: 50%;
-            background: #fff; box-shadow: 0 0 0 4px #000;
+            content: '-'; position: absolute; left: -1.75rem; top: -2px;
+            font-weight: 700; color: #fdfcfc;
         }
 
         #navbar {
             position: fixed; top: 0; left: 0; right: 0; z-index: 40;
-            transition: background 0.4s, backdrop-filter 0.4s;
-        }
-        #navbar.scrolled {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid rgba(255,255,255,0.06);
+            background: #201d1d;
+            border-bottom: 1px solid rgba(253,252,252,0.12);
+            transition: box-shadow 0.4s;
         }
         .nav-link {
-            position: relative; color: #9ca3af; font-size: 0.85rem;
-            letter-spacing: 0.1em; text-transform: uppercase; transition: color 0.2s;
+            position: relative; color: #9a9898; font-size: 0.85rem;
+            letter-spacing: 0; text-transform: none; transition: color 0.2s;
         }
         .nav-link::after {
             content: ''; position: absolute; bottom: -2px; left: 0; width: 0; height: 1px;
-            background: #fff; transition: width 0.3s;
+            background: #fdfcfc; transition: width 0.3s;
         }
-        .nav-link:hover { color: #fff; }
+        .nav-link:hover { color: #fdfcfc; }
         .nav-link:hover::after { width: 100%; }
-        .nav-link.active { color: #fff; }
+        .nav-link.active { color: #fdfcfc; }
         .nav-link.active::after { width: 100%; }
 
-        /* Accessibility: visible focus indicator on dark background */
+        /* Accessibility: visible focus indicator */
         a:focus-visible, button:focus-visible, .project-card:focus-visible, [tabindex]:focus-visible {
-            outline: 2px solid #fff; outline-offset: 3px; border-radius: 4px;
+            outline: 2px solid #fdfcfc; outline-offset: 3px; border-radius: 4px;
         }
 
         /* Accessibility: screen-reader-only utility + skip link reveal */
@@ -174,7 +165,7 @@
         .skip-link:focus {
             position: fixed; top: 1rem; left: 1rem; z-index: 100; width: auto; height: auto;
             margin: 0; padding: 0.6rem 1rem; clip: auto; overflow: visible;
-            background: #fff; color: #000; border-radius: 0.375rem; font-size: 0.9rem;
+            background: #fdfcfc; color: #201d1d; border-radius: 4px; font-size: 0.9rem;
         }
 
         /* Accessibility: respect reduced-motion preference */
@@ -190,7 +181,7 @@
     <a href="#maincontent" class="sr-only skip-link">Skip to content</a>
     <nav id="navbar" aria-label="Primary">
         <div class="max-w-7xl mx-auto px-6 md:px-12 flex items-center justify-between h-16">
-            <a href="#hero" onclick="navScrollTo(event,'hero')" class="text-sm font-light tracking-widest text-white uppercase">John.TC Tsai</a>
+            <a href="#hero" onclick="navScrollTo(event,'hero')" class="text-sm font-medium text-[#fdfcfc]">[John.TC Tsai]</a>
             <div class="flex items-center gap-6 sm:gap-8">
                 <a href="#about" onclick="navScrollTo(event,'about')" class="nav-link">About</a>
                 <a href="#projects" onclick="navScrollTo(event,'projects')" class="nav-link">Projects</a>
@@ -199,18 +190,19 @@
         </div>
     </nav>
 
-    <header id="hero" class="hero-bg relative h-screen flex items-center justify-center overflow-hidden">
+    <header id="hero" class="hero-bg relative h-screen flex items-center justify-center overflow-hidden text-[#fdfcfc]">
         <div class="relative z-10 text-center px-4">
-            <h1 class="hero-title font-light mb-4">JOHN.TC TSAI</h1>
-            <p class="text-base md:text-lg text-gray-400 max-w-2xl mx-auto mb-10">
-                Interactive Artist & Creative Technologist | XR · Unity · Interactive Installations
+            <p class="text-xs text-[#9a9898] mb-4">[ Interactive Artist &amp; Creative Technologist ]</p>
+            <h1 class="hero-title mb-4">JOHN.TC TSAI</h1>
+            <p class="text-base text-[#d4d2d2] max-w-2xl mx-auto mb-10">
+                XR · Unity · Interactive Installations
             </p>
             <div class="flex flex-wrap items-center justify-center gap-4">
-                <a href="#projects" onclick="navScrollTo(event,'projects')" class="px-7 py-3 bg-white text-black rounded-full text-sm tracking-wide hover:bg-gray-200 transition-colors">View Projects</a>
-                <a href="#contact" onclick="navScrollTo(event,'contact')" class="px-7 py-3 border border-white/30 text-white rounded-full text-sm tracking-wide hover:border-white hover:bg-white/5 transition-colors">Get in Touch</a>
+                <a href="#projects" onclick="navScrollTo(event,'projects')" class="px-5 py-1 bg-[#fdfcfc] text-[#201d1d] font-medium rounded text-sm hover:bg-[#3d3939] transition-colors">View Projects</a>
+                <a href="#contact" onclick="navScrollTo(event,'contact')" class="px-5 py-1 border border-[#9a9898] text-[#fdfcfc] rounded text-sm hover:border-[#fdfcfc] transition-colors">Get in Touch</a>
             </div>
         </div>
-        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce" aria-hidden="true">
+        <div class="absolute bottom-10 left-1/2 transform -translate-x-1/2 animate-bounce text-[#fdfcfc]" aria-hidden="true">
             <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <polyline points="6 9 12 15 18 9"></polyline>
             </svg>
@@ -219,159 +211,151 @@
 
     <main id="maincontent">
     <section id="about" class="py-24 px-6 md:px-12 max-w-7xl mx-auto">
-        <h2 class="text-5xl font-light mb-4 text-center">About</h2>
-        <div class="h-1 w-20 bg-white mb-16 mx-auto"></div>
+        <h2 class="text-5xl font-bold mb-4 text-center text-[#fdfcfc]">About</h2>
+        <div class="w-full border-b border-[rgba(253,252,252,0.12)] mb-16"></div>
 
         <div class="grid md:grid-cols-2 gap-12 mb-20">
             <div>
-                <h3 class="text-3xl font-light mb-6">John.TC Tsai</h3>
-                <p class="text-gray-300 leading-relaxed mb-6">Interactive artist and creative technologist specializing in XR experiences, interactive installations, and immersive technology. Combining technical expertise with artistic vision to create engaging digital experiences.</p>
-                <p lang="zh-TW" class="text-gray-300 leading-relaxed">從互動設計到擴增實境，探索科技與藝術的交界。致力於創造能與觀眾產生共鳴的沉浸式體驗。</p>
+                <h3 class="text-3xl font-bold mb-6 text-[#fdfcfc]">John.TC Tsai</h3>
+                <p class="text-[#d4d2d2] leading-relaxed mb-6">Interactive artist and creative technologist specializing in XR experiences, interactive installations, and immersive technology. Combining technical expertise with artistic vision to create engaging digital experiences.</p>
+                <p lang="zh-TW" class="text-[#d4d2d2] leading-relaxed">從互動設計到擴增實境，探索科技與藝術的交界。致力於創造能與觀眾產生共鳴的沉浸式體驗。</p>
             </div>
             <div>
-                <h3 class="text-2xl font-light mb-6">Experience</h3>
+                <h3 class="text-2xl font-bold mb-6 text-[#fdfcfc]">Experience</h3>
                 <div class="space-y-7 timeline">
                     <div class="timeline-item">
-                        <p class="text-sm text-gray-400 mb-1">2024.3 - Now</p>
-                        <p class="font-light">Backend Engineer</p>
-                        <p class="text-sm text-gray-400">DELTA IT Solution Development</p>
+                        <p class="text-sm text-[#9a9898] mb-1">2024.3 - Now</p>
+                        <p class="font-semibold text-[#fdfcfc]">Backend Engineer</p>
+                        <p class="text-sm text-[#9a9898]">DELTA IT Solution Development</p>
                     </div>
                     <div class="timeline-item">
-                        <p class="text-sm text-gray-400 mb-1">2022.9 - 2024.3</p>
-                        <p class="font-light">Sensor Frontend Engineer (Unity / Three.js)</p>
-                        <p class="text-sm text-gray-400">DELTA IT Solution Enablement Center</p>
+                        <p class="text-sm text-[#9a9898] mb-1">2022.9 - 2024.3</p>
+                        <p class="font-semibold text-[#fdfcfc]">Sensor Frontend Engineer (Unity / Three.js)</p>
+                        <p class="text-sm text-[#9a9898]">DELTA IT Solution Enablement Center</p>
                     </div>
                     <div class="timeline-item">
-                        <p class="text-sm text-gray-400 mb-1">2020.9 - 2022.3</p>
-                        <p class="font-light">Sensor Frontend Engineer (Unity / Three.js)</p>
-                        <p class="text-sm text-gray-400">DELTA Research Center</p>
+                        <p class="text-sm text-[#9a9898] mb-1">2020.9 - 2022.3</p>
+                        <p class="font-semibold text-[#fdfcfc]">Sensor Frontend Engineer (Unity / Three.js)</p>
+                        <p class="text-sm text-[#9a9898]">DELTA Research Center</p>
                     </div>
                     <div class="timeline-item">
-                        <p class="text-sm text-gray-400 mb-1">2019.6 - 2020.9</p>
-                        <p class="font-light">Firmware Engineer</p>
-                        <p class="text-sm text-gray-400">COMPAL electronics inc.</p>
+                        <p class="text-sm text-[#9a9898] mb-1">2019.6 - 2020.9</p>
+                        <p class="font-semibold text-[#fdfcfc]">Firmware Engineer</p>
+                        <p class="text-sm text-[#9a9898]">COMPAL electronics inc.</p>
                     </div>
                     <div class="timeline-item">
-                        <p class="text-sm text-gray-400 mb-1">2019.5 - 2019.6</p>
-                        <p class="font-light">Software Engineer (Unity)</p>
-                        <p class="text-sm text-gray-400">AEMASS Co.</p>
+                        <p class="text-sm text-[#9a9898] mb-1">2019.5 - 2019.6</p>
+                        <p class="font-semibold text-[#fdfcfc]">Software Engineer (Unity)</p>
+                        <p class="text-sm text-[#9a9898]">AEMASS Co.</p>
                     </div>
                     <div class="timeline-item">
-                        <p class="text-sm text-gray-400 mb-1">2017.5 - 2019.5</p>
-                        <p class="font-light">Creative Technologist</p>
-                        <p class="text-sm text-gray-400">RUMU innovation Co.</p>
+                        <p class="text-sm text-[#9a9898] mb-1">2017.5 - 2019.5</p>
+                        <p class="font-semibold text-[#fdfcfc]">Creative Technologist</p>
+                        <p class="text-sm text-[#9a9898]">RUMU innovation Co.</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="mb-20">
-            <h3 class="text-3xl font-light mb-8">Education</h3>
+            <h3 class="text-3xl font-bold mb-8 text-[#fdfcfc]">Education</h3>
             <div class="space-y-7 timeline">
                 <div class="timeline-item">
-                    <p class="text-sm text-gray-400 mb-1">2013 – 2016</p>
-                    <p class="font-light">M.S. in Digital Media Design</p>
-                    <p class="text-sm text-gray-400">National Yunlin University of Science & Technology, Yunlin, Taiwan</p>
-                    <p class="text-sm text-gray-400 mt-2 leading-relaxed">Thesis: The Study on Applying Interactive Generative Art for New Media Performance Space</p>
+                    <p class="text-sm text-[#9a9898] mb-1">2013 – 2016</p>
+                    <p class="font-semibold text-[#fdfcfc]">M.S. in Digital Media Design</p>
+                    <p class="text-sm text-[#9a9898]">National Yunlin University of Science & Technology, Yunlin, Taiwan</p>
+                    <p class="text-sm text-[#9a9898] mt-2 leading-relaxed">Thesis: The Study on Applying Interactive Generative Art for New Media Performance Space</p>
                 </div>
                 <div class="timeline-item">
-                    <p class="text-sm text-gray-400 mb-1">2008 – 2013</p>
-                    <p class="font-light">B.S. in Electrical Engineering</p>
-                    <p class="text-sm text-gray-400">National Yunlin University of Science & Technology, Yunlin, Taiwan</p>
+                    <p class="text-sm text-[#9a9898] mb-1">2008 – 2013</p>
+                    <p class="font-semibold text-[#fdfcfc]">B.S. in Electrical Engineering</p>
+                    <p class="text-sm text-[#9a9898]">National Yunlin University of Science & Technology, Yunlin, Taiwan</p>
                 </div>
             </div>
         </div>
 
         <div class="mb-20">
-            <h3 class="text-3xl font-light mb-8">Skills</h3>
+            <h3 class="text-3xl font-bold mb-8 text-[#fdfcfc]">Skills</h3>
             <div class="space-y-6">
                 <div>
-                    <p class="text-xs text-gray-400 uppercase tracking-widest mb-3">Creative & Design</p>
+                    <p class="text-xs text-[#9a9898] mb-3">Creative & Design</p>
                     <div class="flex flex-wrap gap-3">
-                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">Interaction Design</span>
-                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">XR</span>
-                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">WebGL</span>
-                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">Vibe Coding</span>
+                        <span class="skill-tag px-6 py-3 bg-[#302c2c] rounded text-[#fdfcfc] font-medium transition-colors cursor-default">Interaction Design</span>
+                        <span class="skill-tag px-6 py-3 bg-[#302c2c] rounded text-[#fdfcfc] font-medium transition-colors cursor-default">XR</span>
+                        <span class="skill-tag px-6 py-3 bg-[#302c2c] rounded text-[#fdfcfc] font-medium transition-colors cursor-default">WebGL</span>
+                        <span class="skill-tag px-6 py-3 bg-[#302c2c] rounded text-[#fdfcfc] font-medium transition-colors cursor-default">Vibe Coding</span>
                     </div>
                 </div>
                 <div>
-                    <p class="text-xs text-gray-400 uppercase tracking-widest mb-3">3D & Real-time Graphics</p>
+                    <p class="text-xs text-[#9a9898] mb-3">3D & Real-time Graphics</p>
                     <div class="flex flex-wrap gap-3">
-                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">Unity</span>
-                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">Three.js</span>
+                        <span class="skill-tag px-6 py-3 bg-[#302c2c] rounded text-[#fdfcfc] font-medium transition-colors cursor-default">Unity</span>
+                        <span class="skill-tag px-6 py-3 bg-[#302c2c] rounded text-[#fdfcfc] font-medium transition-colors cursor-default">Three.js</span>
                     </div>
                 </div>
                 <div>
-                    <p class="text-xs text-gray-400 uppercase tracking-widest mb-3">Web & Backend</p>
+                    <p class="text-xs text-[#9a9898] mb-3">Web & Backend</p>
                     <div class="flex flex-wrap gap-3">
-                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">Spring Boot</span>
-                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">MSSQL</span>
+                        <span class="skill-tag px-6 py-3 bg-[#302c2c] rounded text-[#fdfcfc] font-medium transition-colors cursor-default">Spring Boot</span>
+                        <span class="skill-tag px-6 py-3 bg-[#302c2c] rounded text-[#fdfcfc] font-medium transition-colors cursor-default">MSSQL</span>
                     </div>
                 </div>
                 <div>
-                    <p class="text-xs text-gray-400 uppercase tracking-widest mb-3">Hardware</p>
+                    <p class="text-xs text-[#9a9898] mb-3">Hardware</p>
                     <div class="flex flex-wrap gap-3">
-                        <span class="skill-tag px-6 py-3 bg-zinc-900 rounded-full text-gray-300 transition-colors cursor-default">Arduino</span>
+                        <span class="skill-tag px-6 py-3 bg-[#302c2c] rounded text-[#fdfcfc] font-medium transition-colors cursor-default">Arduino</span>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="mb-20">
-            <h3 class="text-3xl font-light mb-8">Highlights & Awards</h3>
+            <h3 class="text-3xl font-bold mb-8 text-[#fdfcfc]">Highlights & Awards</h3>
             <div class="space-y-4">
-                <div class="group"><a href="docs/award-01.pdf" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《BEST AI Awards 智慧創新大賞》2026</p></a></div>
-                <div class="group"><a href="docs/award-02.pdf" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《Spring Framework 5 企業級應用程式開發》結業證書 — 恆逸資訊 2025</p></a></div>
-                <div class="group"><a href="docs/award-03.png" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《智慧製造創新創業大賽》優等獎 2023</p></a></div>
-                <div class="group"><a href="https://brandnews.deltaww.com/EN/IoTSolutionsDetail/2180" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《Mastering VR》2021</p></a></div>
-                <div class="group"><a href="https://ict.teema.org.tw/ebookqr/promore.asp?id=1748&cno=14528" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《Boostfix》2019</p></a></div>
-                <div class="group"><a href="https://www.intertrend.com/intweb2/awards/awards.html" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《GoFunDog》2019 - Summit Emerging Media Awards - Leader and Visionary</p></a></div>
-                <div class="group"><a href="https://www.youtube.com/watch?v=yCupKRReiEo" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《GoFunDog》2019 - 41st Taipei International Creative Festival Awards - Technology</p></a></div>
-                <div class="group"><a href="https://www.404festival.com/speaker/rumu/?lang=en" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《8ight Dogs》2018 - 404 festival</p></a></div>
-                <div class="group"><a href="https://howlife.cna.com.tw/life/20171114s011.aspx" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《Sonic Signer》2017 - The SEIKO Innovation Competition - MVP</p></a></div>
-                <div class="group"><a href="https://www.facebook.com/ida.moea/posts/2017-vr-hackfest%E9%A0%92%E7%8D%8E%E5%9B%89digitaltaipei2017%E7%B6%93%E6%BF%9F%E9%83%A8%E5%B7%A5%E6%A5%AD%E5%B1%80%E8%88%87%E6%96%87%E5%8C%96%E9%83%A8%E5%85%B1%E5%90%8C%E8%88%89%E8%BE%A6%E7%9A%842017-vr-hackfest-vr%E9%96%8B%E7%99%BC%E8%80%85%E9%BB%91%E5%AE%A2%E6%9D%BE%E5%A4%A7%E8%B3%BD%E6%97%A5%E5%89%8D/883932751770865/" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《LIPO Mobile VR》2017 - VR Hackfest - Best Mobile VR & Best Original IP</p></a></div>
-                <div class="group"><a href="http://digitalartfestival.tw/daf16/en-award-3-0307.php" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-500 mt-1">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《ColorMesh》2016 - K. T. Creativity Award - Technical Art</p></a></div>
-                <div class="group"><a href="https://brandnews.deltaww.com/EN/IoTSolutionsDetail/2180" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-400 mt-1" aria-hidden="true">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《Mastering VR》2021</p></a></div>
-                <div class="group"><a href="https://ict.teema.org.tw/ebookqr/promore.asp?id=1748&cno=14528" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-400 mt-1" aria-hidden="true">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《Boostfix》2019</p></a></div>
-                <div class="group"><a href="https://www.intertrend.com/intweb2/awards/awards.html" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-400 mt-1" aria-hidden="true">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《GoFunDog》2019 - Summit Emerging Media Awards - Leader and Visionary</p></a></div>
-                <div class="group"><a href="https://www.youtube.com/watch?v=yCupKRReiEo" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-400 mt-1" aria-hidden="true">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《GoFunDog》2019 - 41st Taipei International Creative Festival Awards - Technology</p></a></div>
-                <div class="group"><a href="https://www.404festival.com/speaker/rumu/?lang=en" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-400 mt-1" aria-hidden="true">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《8ight Dogs》2018 - 404 festival</p></a></div>
-                <div class="group"><a href="https://howlife.cna.com.tw/life/20171114s011.aspx" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-400 mt-1" aria-hidden="true">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《Sonic Signer》2017 - The SEIKO Innovation Competition - MVP</p></a></div>
-                <div class="group"><a href="https://www.facebook.com/ida.moea/posts/2017-vr-hackfest%E9%A0%92%E7%8D%8E%E5%9B%89digitaltaipei2017%E7%B6%93%E6%BF%9F%E9%83%A8%E5%B7%A5%E6%A5%AD%E5%B1%80%E8%88%87%E6%96%87%E5%8C%96%E9%83%A8%E5%85%B1%E5%90%8C%E8%88%89%E8%BE%A6%E7%9A%842017-vr-hackfest-vr%E9%96%8B%E7%99%BC%E8%80%85%E9%BB%91%E5%AE%A2%E6%9D%BE%E5%A4%A7%E8%B3%BD%E6%97%A5%E5%89%8D/883932751770865/" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-400 mt-1" aria-hidden="true">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《LIPO Mobile VR》2017 - VR Hackfest - Best Mobile VR & Best Original IP</p></a></div>
-                <div class="group"><a href="http://digitalartfestival.tw/daf16/en-award-3-0307.php" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded-lg hover:bg-zinc-900 transition-colors"><span class="text-gray-400 mt-1" aria-hidden="true">→</span><p class="text-gray-300 group-hover:text-white transition-colors">《ColorMesh》2016 - K. T. Creativity Award - Technical Art</p></a></div>
+                <div class="group"><a href="docs/award-01.pdf" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《BEST AI Awards 智慧創新大賞》2026</p></a></div>
+                <div class="group"><a href="docs/award-02.pdf" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《Spring Framework 5 企業級應用程式開發》結業證書 — 恆逸資訊 2025</p></a></div>
+                <div class="group"><a href="docs/award-03.png" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《智慧製造創新創業大賽》優等獎 2023</p></a></div>
+                <div class="group"><a href="https://brandnews.deltaww.com/EN/IoTSolutionsDetail/2180" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《Mastering VR》2021</p></a></div>
+                <div class="group"><a href="https://ict.teema.org.tw/ebookqr/promore.asp?id=1748&cno=14528" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《Boostfix》2019</p></a></div>
+                <div class="group"><a href="https://www.intertrend.com/intweb2/awards/awards.html" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《GoFunDog》2019 - Summit Emerging Media Awards - Leader and Visionary</p></a></div>
+                <div class="group"><a href="https://www.youtube.com/watch?v=yCupKRReiEo" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《GoFunDog》2019 - 41st Taipei International Creative Festival Awards - Technology</p></a></div>
+                <div class="group"><a href="https://www.404festival.com/speaker/rumu/?lang=en" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《8ight Dogs》2018 - 404 festival</p></a></div>
+                <div class="group"><a href="https://howlife.cna.com.tw/life/20171114s011.aspx" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《Sonic Signer》2017 - The SEIKO Innovation Competition - MVP</p></a></div>
+                <div class="group"><a href="https://www.facebook.com/ida.moea/posts/2017-vr-hackfest%E9%A0%92%E7%8D%8E%E5%9B%89digitaltaipei2017%E7%B6%93%E6%BF%9F%E9%83%A8%E5%B7%A5%E6%A5%AD%E5%B1%80%E8%88%87%E6%96%87%E5%8C%96%E9%83%A8%E5%85%B1%E5%90%8C%E8%88%89%E8%BE%A6%E7%9A%842017-vr-hackfest-vr%E9%96%8B%E7%99%BC%E8%80%85%E9%BB%91%E5%AE%A2%E6%9D%BE%E5%A4%A7%E8%B3%BD%E6%97%A5%E5%89%8D/883932751770865/" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《LIPO Mobile VR》2017 - VR Hackfest - Best Mobile VR & Best Original IP</p></a></div>
+                <div class="group"><a href="http://digitalartfestival.tw/daf16/en-award-3-0307.php" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《ColorMesh》2016 - K. T. Creativity Award - Technical Art</p></a></div>
             </div>
         </div>
     </section>
 
     <section id="projects" class="py-24 px-6 md:px-12">
         <div class="max-w-7xl mx-auto">
-            <h2 class="text-5xl font-light mb-4 text-center">Projects</h2>
-            <div class="h-1 w-20 bg-white mb-16 mx-auto"></div>
+            <h2 class="text-5xl font-bold mb-4 text-center text-[#fdfcfc]">Projects</h2>
+            <div class="w-full border-b border-[rgba(253,252,252,0.12)] mb-16"></div>
             <div id="projects-grid" class="grid md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
         </div>
     </section>
 
     <section id="contact" class="py-24 px-6 md:px-12">
         <div class="max-w-4xl mx-auto text-center">
-            <h2 class="text-5xl font-light mb-4">Contact</h2>
-            <div class="h-1 w-20 bg-white mb-12 mx-auto"></div>
+            <h2 class="text-5xl font-bold mb-4 text-[#fdfcfc]">Contact</h2>
+            <div class="w-full border-b border-[rgba(253,252,252,0.12)] mb-12"></div>
             <div class="flex flex-col items-center gap-6">
-                <a href="mailto:shinn716@livemail.tw" class="flex items-center gap-3 text-gray-300 hover:text-white transition-colors text-lg">
+                <a href="mailto:shinn716@livemail.tw" class="flex items-center gap-3 text-[#d4d2d2] hover:text-[#fdfcfc] transition-colors text-lg">
                     <svg aria-hidden="true" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path><polyline points="22,6 12,13 2,6"></polyline></svg>
                     <span>shinn716@livemail.tw</span>
                 </a>
                 <div class="flex gap-6 mt-4">
-                    <a href="https://github.com/shinn716" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">GitHub</a>
-                    <a href="https://hackmd.io/@shinn716" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">HackMD</a>
-                    <a href="https://www.linkedin.com/in/johntctsai/" target="_blank" rel="noopener noreferrer" class="text-gray-300 hover:text-white transition-colors">LinkedIn</a>
+                    <a href="https://github.com/shinn716" target="_blank" rel="noopener noreferrer" class="text-[#d4d2d2] hover:text-[#fdfcfc] transition-colors">GitHub</a>
+                    <a href="https://hackmd.io/@shinn716" target="_blank" rel="noopener noreferrer" class="text-[#d4d2d2] hover:text-[#fdfcfc] transition-colors">HackMD</a>
+                    <a href="https://www.linkedin.com/in/johntctsai/" target="_blank" rel="noopener noreferrer" class="text-[#d4d2d2] hover:text-[#fdfcfc] transition-colors">LinkedIn</a>
                 </div>
-                <p class="text-gray-400 mt-4">TW / TPE</p>
+                <p class="text-[#9a9898] mt-4">TW / TPE</p>
             </div>
         </div>
     </section>
     </main>
 
-    <footer class="py-8 px-6 border-t border-gray-800 text-center text-gray-400">
+    <footer class="py-8 px-6 bg-[#201d1d] border-t border-[rgba(253,252,252,0.12)] text-center text-[#9a9898]">
         <p>© 2026 John.TC Tsai. All rights reserved.</p>
     </footer>
 
@@ -386,7 +370,7 @@
             <svg aria-hidden="true" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
         </button>
         <div class="max-w-6xl w-full" onclick="event.stopPropagation()">
-            <div id="lightbox-content" tabindex="0" class="grid md:grid-cols-2 gap-8 items-start max-h-[90vh] overflow-y-auto p-4"></div>
+            <div id="lightbox-content" tabindex="0" class="grid md:grid-cols-2 gap-8 items-start max-h-[90vh] overflow-y-auto p-8 bg-[#201d1d] border border-[rgba(253,252,252,0.12)]"></div>
         </div>
     </div>
 
@@ -622,22 +606,22 @@
                             <img src="${thumbnail}" alt="${work.title} — ${work.medium}, ${work.year}" loading="lazy" onerror="this.style.display='none'">
                             <div class="absolute inset-0 bg-gradient-to-br ${work.color}"></div>
                         ` : `<div class="absolute inset-0 bg-gradient-to-br ${work.color}"></div>`}
-                        <div class="relative h-full flex flex-col justify-between p-6">
+                        <div class="relative h-full flex flex-col justify-between p-6 text-[#fdfcfc]">
                             <div>
-                                <div class="text-xs text-gray-400 mb-2">${work.year}</div>
-                                <h3 class="text-2xl font-light mb-3 leading-tight">${work.title}</h3>
+                                <div class="text-xs text-[#9a9898] mb-2">${work.year}</div>
+                                <h3 class="text-2xl font-bold mb-3 leading-tight">${work.title}</h3>
                             </div>
                             <div>
                                 <div class="flex flex-wrap gap-1 mb-3">
-                                    ${work.tags.slice(0, 3).map(tag => `<span class="text-xs px-2 py-1 bg-white/10 rounded text-gray-300">${tag}</span>`).join('')}
+                                    ${work.tags.slice(0, 3).map(tag => `<span class="text-xs px-2 py-1 bg-[#302c2c] rounded text-[#fdfcfc] font-semibold">${tag}</span>`).join('')}
                                 </div>
-                                <div class="text-sm text-gray-400">${work.category}</div>
+                                <div class="text-sm text-[#9a9898]">${work.category}</div>
                             </div>
                         </div>
                         <div class="project-overlay" aria-hidden="true">
-                            <p class="text-2xl font-light mb-2">${work.title}</p>
-                            <p class="text-gray-300 text-sm mb-1">${work.year}</p>
-                            <p class="text-gray-300 text-sm">${work.medium}</p>
+                            <p class="text-2xl font-bold mb-2 text-white">${work.title}</p>
+                            <p class="text-[#201d1d] text-sm mb-1">${work.year}</p>
+                            <p class="text-[#201d1d] text-sm">${work.medium}</p>
                         </div>
                     </div>
                 `;
@@ -669,11 +653,11 @@
                 </div>
             ` : `
                 <div class="sticky top-0">
-                    <div class="relative w-full rounded-lg bg-gradient-to-br ${work.color} flex items-center justify-center" style="padding-bottom: 56.25%">
+                    <div class="relative w-full bg-gradient-to-br ${work.color} bg-[#f8f7f7] flex items-center justify-center" style="padding-bottom: 56.25%">
                         <div class="absolute inset-0 flex items-center justify-center">
                             <div class="text-center p-8">
-                                <h3 class="text-4xl font-light mb-2">${work.title}</h3>
-                                <p class="text-xl text-gray-300">${work.year}</p>
+                                <h3 class="text-4xl font-bold mb-2 text-[#fdfcfc]">${work.title}</h3>
+                                <p class="text-xl text-[#d4d2d2]">${work.year}</p>
                             </div>
                         </div>
                     </div>
@@ -681,8 +665,8 @@
             `;
 
             const galleryHtml = work.gallery && work.gallery.length > 0 ? `
-                <div class="pt-4 border-t border-gray-700">
-                    <p class="text-sm text-gray-400 mb-4">Gallery (${work.gallery.length} photos):</p>
+                <div class="pt-4 border-t border-[rgba(253,252,252,0.12)]">
+                    <p class="text-sm text-[#9a9898] mb-4">Gallery (${work.gallery.length} photos):</p>
                     <div class="grid grid-cols-2 md:grid-cols-3 gap-4">
                         ${work.gallery.map((img, i) => {
                             if (typeof img === 'object' && img.video) {
@@ -715,23 +699,23 @@
 
             content.innerHTML = `
                 ${videoHtml}
-                <div class="text-white space-y-4">
-                    <h3 class="text-4xl font-light">${work.title}</h3>
-                    <p class="text-gray-400">${work.year}</p>
-                    <p class="text-gray-300">${work.medium}</p>
-                    <p class="text-gray-300 leading-relaxed pt-4">${work.description}</p>
-                    ${work.direction ? `<div class="pt-4 border-t border-gray-700"><p class="text-sm text-gray-400 mb-2">Design/Direction:</p><p class="text-gray-300">${work.direction}</p></div>` : ''}
-                    ${work.contribution ? `<div class="pt-4 border-t border-gray-700"><p class="text-sm text-gray-400 mb-2">Contribution:</p><p class="text-gray-300">${work.contribution}</p></div>` : ''}
-                    ${work.team ? `<div class="pt-4 border-t border-gray-700"><p class="text-sm text-gray-400 mb-2">Team:</p><p class="text-gray-300 text-sm">${work.team}</p></div>` : ''}
-                    ${work.event ? `<div class="pt-4 border-t border-gray-700"><p class="text-sm text-gray-400 mb-2">Event:</p><p class="text-gray-300 text-sm">${work.event}</p></div>` : ''}
+                <div class="text-[#fdfcfc] space-y-4">
+                    <h3 class="text-4xl font-bold">${work.title}</h3>
+                    <p class="text-[#9a9898]">${work.year}</p>
+                    <p class="text-[#d4d2d2]">${work.medium}</p>
+                    <p class="text-[#d4d2d2] leading-relaxed pt-4">${work.description}</p>
+                    ${work.direction ? `<div class="pt-4 border-t border-[rgba(253,252,252,0.12)]"><p class="text-sm text-[#9a9898] mb-2">Design/Direction:</p><p class="text-[#d4d2d2]">${work.direction}</p></div>` : ''}
+                    ${work.contribution ? `<div class="pt-4 border-t border-[rgba(253,252,252,0.12)]"><p class="text-sm text-[#9a9898] mb-2">Contribution:</p><p class="text-[#d4d2d2]">${work.contribution}</p></div>` : ''}
+                    ${work.team ? `<div class="pt-4 border-t border-[rgba(253,252,252,0.12)]"><p class="text-sm text-[#9a9898] mb-2">Team:</p><p class="text-[#d4d2d2] text-sm">${work.team}</p></div>` : ''}
+                    ${work.event ? `<div class="pt-4 border-t border-[rgba(253,252,252,0.12)]"><p class="text-sm text-[#9a9898] mb-2">Event:</p><p class="text-[#d4d2d2] text-sm">${work.event}</p></div>` : ''}
                     ${galleryHtml}
                     <div class="flex flex-wrap gap-2 pt-4">
-                        ${work.tags.map(tag => `<span class="px-3 py-1 bg-zinc-800 rounded-full text-xs text-gray-300">#${tag}</span>`).join('')}
+                        ${work.tags.map(tag => `<span class="px-3 py-1 bg-[#302c2c] rounded text-xs text-[#fdfcfc] font-medium">#${tag}</span>`).join('')}
                     </div>
                     <div class="flex gap-4 pt-6">
-                        ${work.video ? `<a href="${work.video}" target="_blank" rel="noopener noreferrer" aria-label="Watch video (opens in new tab)" class="px-4 py-2 bg-white text-black rounded hover:bg-gray-200 transition-colors text-sm">Watch Video</a>` : ''}
-                        ${work.github ? `<a href="${work.github}" target="_blank" rel="noopener noreferrer" aria-label="GitHub repository (opens in new tab)" class="px-4 py-2 bg-zinc-800 text-white rounded hover:bg-zinc-700 transition-colors text-sm">GitHub</a>` : ''}
-                        ${work.link ? `<a href="${work.link}" target="_blank" rel="noopener noreferrer" aria-label="Learn more (opens in new tab)" class="px-4 py-2 bg-zinc-800 text-white rounded hover:bg-zinc-700 transition-colors text-sm">Learn More</a>` : ''}
+                        ${work.video ? `<a href="${work.video}" target="_blank" rel="noopener noreferrer" aria-label="Watch video (opens in new tab)" class="px-5 py-1 bg-[#fdfcfc] text-[#201d1d] font-medium rounded hover:bg-[#3d3939] transition-colors text-sm">Watch Video</a>` : ''}
+                        ${work.github ? `<a href="${work.github}" target="_blank" rel="noopener noreferrer" aria-label="GitHub repository (opens in new tab)" class="px-5 py-1 bg-[#201d1d] text-[#fdfcfc] border border-[#9a9898] rounded hover:border-[#fdfcfc] transition-colors text-sm">GitHub</a>` : ''}
+                        ${work.link ? `<a href="${work.link}" target="_blank" rel="noopener noreferrer" aria-label="Learn more (opens in new tab)" class="px-5 py-1 bg-[#201d1d] text-[#fdfcfc] border border-[#9a9898] rounded hover:border-[#fdfcfc] transition-colors text-sm">Learn More</a>` : ''}
                     </div>
                 </div>
             `;
