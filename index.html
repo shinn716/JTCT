@@ -111,6 +111,12 @@
         .popup-content { max-width: 90vw; max-height: 85vh; animation: scaleIn 0.4s ease-out; transform-origin: center; border-radius: 0; overflow: hidden; }
         .popup-content img { width: 80vw; height: 70vh; object-fit: contain; background: #201d1d; display: block; }
 
+        /* Inline media viewer (award assets: image / video / youtube / pdf) */
+        #media-popup-body { width: 80vw; max-width: 1100px; height: 74vh; background: #201d1d; }
+        #media-popup-body > * { width: 100%; height: 100%; display: block; border: 0; }
+        #media-popup-body > img, #media-popup-body > video { object-fit: contain; background: #000; }
+        #media-popup-external { text-decoration: underline; }
+
         @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
         @keyframes scaleIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
 
@@ -311,8 +317,8 @@
 
         <div class="mb-20">
             <h3 class="text-3xl font-bold mb-8 text-[#fdfcfc]">Highlights & Awards</h3>
-            <div class="space-y-4">
-                <div class="group"><a href="docs/award-01.pdf" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《BEST AI Awards 智慧創新大賞》2026</p></a></div>
+            <div id="awards-list" class="space-y-4">
+                <div class="group"><a href="docs/award-01.pdf" data-media="docs/award-01-photo-1.jpg,docs/award-01-photo-2.jpg,docs/award-01-photo-3.jpg,docs/award-01-photo-4.jpg" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《BEST AI Awards 智慧創新大賞》2026</p></a></div>
                 <div class="group"><a href="docs/award-02.pdf" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《Spring Framework 5 企業級應用程式開發》結業證書 — 恆逸資訊 2025</p></a></div>
                 <div class="group"><a href="docs/award-03.png" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《智慧製造創新創業大賽》優等獎 2023</p></a></div>
                 <div class="group"><a href="https://brandnews.deltaww.com/EN/IoTSolutionsDetail/2180" target="_blank" rel="noopener noreferrer" class="flex items-start gap-3 p-4 rounded hover:bg-[#302c2c] transition-colors"><span class="text-[#9a9898] mt-1">[+]</span><p class="text-[#d4d2d2] group-hover:text-[#fdfcfc] transition-colors">《Mastering VR》2021</p></a></div>
@@ -397,6 +403,26 @@
         <div class="popup-content" style="width: 80vw; max-width: 1000px;" onclick="event.stopPropagation()">
             <div class="relative w-full bg-black" style="padding-bottom: 56.25%">
                 <iframe id="video-popup-iframe" src="" class="absolute top-0 left-0 w-full h-full" allow="autoplay; fullscreen; picture-in-picture" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <div id="media-popup" class="image-popup" onclick="closeMediaPopup()" role="dialog" aria-modal="true" aria-label="Media viewer">
+        <button type="button" onclick="closeMediaPopup()" aria-label="Close media" class="absolute top-8 right-8 text-white/80 hover:text-white z-10 transition-colors">
+            <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+        </button>
+        <button type="button" id="prev-media-btn" onclick="prevMedia(event)" aria-label="Previous item" class="absolute left-8 top-1/2 -translate-y-1/2 text-white/80 hover:text-white z-10 transition-colors bg-black/50 rounded-full p-3">
+            <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"></polyline></svg>
+        </button>
+        <button type="button" id="next-media-btn" onclick="nextMedia(event)" aria-label="Next item" class="absolute right-8 top-1/2 -translate-y-1/2 text-white/80 hover:text-white z-10 transition-colors bg-black/50 rounded-full p-3">
+            <svg aria-hidden="true" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="9 18 15 12 9 6"></polyline></svg>
+        </button>
+        <div class="popup-content" onclick="event.stopPropagation()">
+            <div id="media-popup-body"></div>
+            <div class="flex flex-wrap items-center justify-center gap-3 mt-4 text-white/60 text-sm">
+                <span id="media-popup-title"></span>
+                <span id="media-popup-counter"></span>
+                <a id="media-popup-external" href="#" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Open original</a>
             </div>
         </div>
     </div>
@@ -568,6 +594,9 @@
         let currentIndex = 0;
         let currentGallery = [];
         let currentGalleryIndex = 0;
+        let currentMedia = [];
+        let currentMediaIndex = 0;
+        let currentMediaTitle = '';
 
         function openVideoPopup(embedUrl) {
             document.getElementById('video-popup-iframe').src = embedUrl + '?autoplay=1';
@@ -578,6 +607,87 @@
         function closeVideoPopup() {
             document.getElementById('video-popup').classList.remove('active');
             document.getElementById('video-popup-iframe').src = '';
+            document.body.style.overflow = '';
+        }
+
+        // --- Inline media viewer (Highlights & Awards) -------------------------
+        function detectMediaType(url) {
+            const clean = url.split('?')[0].split('#')[0].toLowerCase();
+            if (/\.(jpe?g|png|gif|webp|avif|svg)$/.test(clean)) return 'image';
+            if (/\.(mp4|webm|ogv|mov|m4v)$/.test(clean)) return 'video';
+            if (/\.pdf$/.test(clean)) return 'pdf';
+            if (/(youtube\.com|youtu\.be|vimeo\.com)/.test(clean)) return 'embed';
+            return null;
+        }
+
+        function toEmbedUrl(url) {
+            let m = url.match(/(?:youtube\.com\/(?:watch\?(?:.*&)?v=|embed\/|shorts\/)|youtu\.be\/)([\w-]{11})/);
+            if (m) return `https://www.youtube.com/embed/${m[1]}?autoplay=1`;
+            m = url.match(/vimeo\.com\/(?:video\/)?(\d+)/);
+            if (m) return `https://player.vimeo.com/video/${m[1]}?autoplay=1`;
+            return url;
+        }
+
+        // Returns true when the media type is unsupported, so the <a> keeps its
+        // default behaviour (open in a new tab).
+        function openMediaPopup(event, sources, title) {
+            const items = (Array.isArray(sources) ? sources : [sources]).filter(Boolean);
+            if (!items.length || !detectMediaType(items[0])) return true;
+            if (event) event.preventDefault();
+
+            currentMedia = items;
+            currentMediaTitle = title || '';
+            document.getElementById('media-popup').classList.add('active');
+            document.body.style.overflow = 'hidden';
+            showMedia(0);
+            return false;
+        }
+
+        function showMedia(index) {
+            if (!currentMedia.length) return;
+            currentMediaIndex = (index + currentMedia.length) % currentMedia.length;
+            const url = currentMedia[currentMediaIndex];
+            const type = detectMediaType(url);
+            const body = document.getElementById('media-popup-body');
+            const label = currentMediaTitle;
+            let node;
+            if (type === 'image') {
+                node = document.createElement('img');
+                node.src = url;
+                node.alt = label;
+            } else if (type === 'video') {
+                node = document.createElement('video');
+                node.src = url;
+                node.controls = true;
+                node.autoplay = true;
+                node.playsInline = true;
+            } else {
+                node = document.createElement('iframe');
+                node.src = type === 'pdf' ? url + '#view=FitH' : toEmbedUrl(url);
+                node.title = label || (type === 'pdf' ? 'PDF document' : 'Video player');
+                node.setAttribute('allow', 'autoplay; fullscreen; picture-in-picture');
+                node.setAttribute('allowfullscreen', '');
+            }
+            body.replaceChildren(node);
+
+            document.getElementById('media-popup-title').textContent = label;
+            document.getElementById('media-popup-external').href = url;
+
+            const multi = currentMedia.length > 1;
+            document.getElementById('media-popup-counter').textContent =
+                multi ? `${currentMediaIndex + 1} / ${currentMedia.length}` : '';
+            document.getElementById('prev-media-btn').style.display = multi ? 'block' : 'none';
+            document.getElementById('next-media-btn').style.display = multi ? 'block' : 'none';
+        }
+
+        function prevMedia(e) { if (e) e.stopPropagation(); showMedia(currentMediaIndex - 1); }
+        function nextMedia(e) { if (e) e.stopPropagation(); showMedia(currentMediaIndex + 1); }
+
+        function closeMediaPopup() {
+            document.getElementById('media-popup').classList.remove('active');
+            document.getElementById('media-popup-body').replaceChildren();
+            currentMedia = [];
+            currentMediaIndex = 0;
             document.body.style.overflow = '';
         }
 
@@ -804,6 +914,14 @@
                 trapFocus(e, popup);
                 return;
             }
+            const mp = document.getElementById('media-popup');
+            if (mp.classList.contains('active')) {
+                if (e.key === 'Escape') { closeMediaPopup(); return; }
+                if (e.key === 'ArrowLeft') prevMedia(e);
+                if (e.key === 'ArrowRight') nextMedia(e);
+                trapFocus(e, mp);
+                return;
+            }
             const vp = document.getElementById('video-popup');
             if (vp.classList.contains('active')) {
                 if (e.key === 'Escape') { closeVideoPopup(); return; }
@@ -818,6 +936,17 @@
         });
 
         document.getElementById('lightbox').addEventListener('click', function(e) { if (e.target === this) closeLightbox(); });
+
+        // Awards: play media (image / video / youtube / vimeo / pdf) inline;
+        // plain website links keep their default new-tab behaviour.
+        document.getElementById('awards-list').addEventListener('click', function(e) {
+            const a = e.target.closest('a[href]');
+            if (!a || e.metaKey || e.ctrlKey || e.shiftKey || e.button !== 0) return;
+            // data-media (comma-separated) lets one award show several files
+            const extra = (a.dataset.media || '').split(',').map(s => s.trim()).filter(Boolean);
+            const sources = [a.getAttribute('href'), ...extra];
+            openMediaPopup(e, sources, a.textContent.trim().replace(/^\[\+\]\s*/, ''));
+        });
 
         renderProjects();
 
