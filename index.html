@@ -966,8 +966,6 @@
         const navLinks = document.querySelectorAll('.nav-link');
 
         window.addEventListener('scroll', () => {
-            navbar.classList.toggle('scrolled', window.scrollY > 50);
-
             let current = '';
             sections.forEach(id => {
                 const el = document.getElementById(id);
