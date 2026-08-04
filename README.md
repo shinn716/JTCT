@@ -2,7 +2,7 @@
 
 Personal portfolio website for John.TC Tsai, Interactive Artist & Creative Technologist.
 
-**Live site:** https://shinn716.github.io/JTCT/
+**Live site:** [https://shinn716.github.io/jtct/](https://shinn716.github.io/jtct/)
 
 ## Stack
 
